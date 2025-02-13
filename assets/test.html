@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Luxuria</title>
+    <link rel="icon" type="image/x-icon" href="hotel-icon.jpg">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">Hotel Luxuria</div>
+            <div class="menu-icon" id="menu-icon">&#9776;</div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="rooms.html">Rooms</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <style>
+        .hero {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #hero-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-text {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7),
+                0 0 20px rgba(255, 215, 0, 0.7),
+                0 0 30px rgba(255, 215, 0, 0.7);
+            font-size: 2em;
+            text-align: center;
+            animation: glow 1.5s infinite alternate;
+            mix-blend-mode: screen;
+        }
+
+        .logo {
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7),
+                0 0 20px rgba(255, 215, 0, 0.7),
+                0 0 30px rgba(255, 215, 0, 0.7);
+            font-size: 2em;
+            animation: glow 1.5s infinite alternate;
+            mix-blend-mode: screen;
+        }
+
+        .nav-links {
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7),
+                0 0 20px rgba(255, 215, 0, 0.7),
+                0 0 30px rgba(255, 215, 0, 0.7);
+            font-size: 2em;
+            animation: glow 1.5s infinite alternate;
+            mix-blend-mode: screen;
+        }
+
+        .hero-text p {
+            background: rgba(0, 0, 0, 0.5);
+            /* Adjust the background to blend with the video */
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(255, 215, 0, 0.7),
+                    0 0 20px rgba(255, 215, 0, 0.7),
+                    0 0 30px rgba(255, 215, 0, 0.7);
+            }
+
+            to {
+                text-shadow: 0 0 20px rgba(255, 215, 0, 1),
+                    0 0 30px rgba(255, 215, 0, 1),
+                    0 0 40px rgba(255, 215, 0, 1);
+            }
+        }
+    </style>
+
+    <section class="hero">
+        <video autoplay muted loop playsinline id="hero-video">
+            <source src="./" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+        <div class="hero-text">
+            <p>Experience Luxury and Comfort</p>
+            <div class="hero-buttons">
+                <a href="about.html" class="btn">About Us</a>
+                <a href="rooms.html" class="btn">Our Rooms</a>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            text-decoration: none;
+            /* Remove underline */
+            color: white;
+            background-color: #FFA500;
+            /* Button color */
+            border: none;
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background-color: #CC8400;
+            /* Darker shade on hover */
+        }
+    </style>
+
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .hero {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #hero-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-text {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7),
+                0 0 20px rgba(255, 215, 0, 0.7),
+                0 0 30px rgba(255, 215, 0, 0.7);
+            font-size: 2em;
+            text-align: center;
+            animation: glow 1.5s infinite alternate;
+            mix-blend-mode: screen;
+        }
+
+        .hero-text p {
+            background: rgba(0, 0, 0, 0.5);
+            /* Adjust the background to blend with the video */
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            height: 13ch;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            height: 1cm;
+        }
+
+        .btn {
+            background: rgba(255, 215, 0, 0.7);
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.7),
+                0 0 20px rgba(255, 215, 0, 0.7);
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+
+        .btn:hover {
+            background: rgba(255, 215, 0, 1);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 1),
+                0 0 30px rgba(255, 215, 0, 1);
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(255, 215, 0, 0.7),
+                    0 0 20px rgba(255, 215, 0, 0.7),
+                    0 0 30px rgba(255, 215, 0, 0.7);
+            }
+
+            to {
+                text-shadow: 0 0 20px rgba(255, 215, 0, 1),
+                    0 0 30px rgba(255, 215, 0, 1),
+                    0 0 40px rgba(255, 215, 0, 1);
+            }
+        }
+    </style>
+
+    <script src="script.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            position: fixed;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            color: #fff;
+            font-size: 24px;
+        }
+
+        .menu-icon {
+            display: none;
+            font-size: 30px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .hero {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            text-align: center;
+        }
+
+        .hero-text h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .hero-text p {
+            font-size: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .menu-icon {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                position: absolute;
+                top: 60px;
+                left: 0;
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+                text-align: center;
+            }
+
+            .nav-links a {
+                font-size: 20px;
+            }
+        }
+    </style>
+
+    <script>
+        document.getElementById('menu-icon').addEventListener('click', function () {
+            var navLinks = document.getElementById('nav-links');
+            if (navLinks.style.display === 'flex') {
+                navLinks.style.display = 'none';
+            } else {
+                navLinks.style.display = 'flex';
+            }
+        });
+
+        // Ensure video plays on mobile devices after user interaction
+        document.addEventListener('DOMContentLoaded', function () {
+            var video = document.getElementById('hero-video');
+            video.addEventListener('click', function () {
+                if (video.paused) {
+                    video.play();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

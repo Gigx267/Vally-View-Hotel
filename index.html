@@ -2,94 +2,102 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>High-Tech Car Landscape</title>
     <style>
         body {
             margin: 0;
             overflow: hidden;
             font-family: 'Arial', sans-serif;
-            background-color: #fdf3f3;
+            background-color: #000;
             color: #0ff;
+            touch-action: none;
         }
         #canvas-container {
             position: absolute;
             width: 100%;
-            height: 50%;
+            height: 100%;
         }
         #ui {
             position: absolute;
-            bottom: 20px;
-            left: 20px;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
             z-index: 100;
             background-color: rgba(0, 0, 0, 0.7);
-            padding: 15px;
+            padding: 10px;
             border-radius: 10px;
             border: 1px solid #0ff;
+            box-sizing: border-box;
         }
         #ui h2 {
-            margin-top: 0;
+            margin: 5px 0;
+            font-size: 16px;
             color: #0ff;
             text-shadow: 0 0 5px #0ff;
         }
         #controls {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            gap: 8px;
         }
         .control-btn {
             background: rgba(0, 255, 255, 0.2);
             border: 1px solid #0ff;
             color: #0ff;
-            padding: 10px;
+            padding: 8px 5px;
             border-radius: 5px;
             cursor: pointer;
             transition: all 0.3s;
             text-align: center;
+            font-size: 12px;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
         }
-        .control-btn:hover {
+        .control-btn:active {
             background: rgba(0, 255, 255, 0.4);
             box-shadow: 0 0 10px #0ff;
         }
         #speed-display {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 24px;
+            top: 10px;
+            right: 10px;
+            font-size: 16px;
             background-color: rgba(0, 0, 0, 0.7);
-            padding: 10px 20px;
+            padding: 8px 15px;
             border-radius: 10px;
             border: 1px solid #0ff;
         }
         #dashboard {
             position: absolute;
-            bottom: 20px;
-            right: 20px;
-            width: 100px;
-            height: 50px;
+            bottom: 10px;
+            right: 10px;
+            width: 80px;
+            height: 40px;
             background-color: rgba(0, 0, 0, 0.7);
             border: 1px solid #0ff;
             border-radius: 10px;
-            padding: 15px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
         }
         .dashboard-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
         .dashboard-item {
             flex: 1;
             text-align: center;
         }
         .dashboard-value {
-            font-size: 24px;
+            font-size: 16px;
             color: #0ff;
             text-shadow: 0 0 5px #0ff;
         }
         .dashboard-label {
-            font-size: 12px;
+            font-size: 10px;
             color: #0aa;
         }
         #loading {
@@ -109,21 +117,77 @@
             border: 5px solid #033;
             border-top: 5px solid #0ff;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             animation: spin 1s linear infinite;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+        #mobile-controls {
+            position: absolute;
+            bottom: 150px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 100;
+        }
+        .mobile-btn {
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 255, 255, 0.2);
+            border: 1px solid #0ff;
+            color: #0ff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+        .mobile-btn:active {
+            background: rgba(0, 255, 255, 0.4);
+            box-shadow: 0 0 10px #0ff;
+        }
+        #mobile-steering {
+            position: absolute;
+            bottom: 150px;
+            left: 20px;
+            width: 100px;
+            height: 100px;
+            z-index: 100;
+        }
+        #steering-wheel {
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #0ff;
+            border-radius: 50%;
+            position: relative;
+            touch-action: manipulation;
+        }
+        #steering-knob {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #0ff;
+            border-radius: 50%;
         }
     </style>
 </head>
 <body>
     <div id="loading">
         <div class="loader"></div>
-        <div>Loading futuristic car experience...</div>
+        <div>Loading ...</div>
     </div>
 
     <div id="canvas-container"></div>
@@ -155,28 +219,35 @@
         </div>
     </div>
     
+    <div id="mobile-controls">
+        <div class="mobile-btn" id="mobile-accelerate">↑</div>
+        <div class="mobile-btn" id="mobile-brake">↓</div>
+        <div class="mobile-btn" id="mobile-boost">B</div>
+    </div>
+    
+    <div id="mobile-steering">
+        <div id="steering-wheel">
+            <div id="steering-knob"></div>
+        </div>
+    </div>
+    
     <div id="ui">
         <h2>CAR CONTROLS</h2>
         <div id="controls">
-            <div class="control-btn" id="accelerate">↑ ACCELERATE</div>
+            <div class="control-btn" id="accelerate">↑ ACCEL</div>
             <div class="control-btn" id="brake">↓ BRAKE</div>
             <div class="control-btn" id="left">← LEFT</div>
             <div class="control-btn" id="right">→ RIGHT</div>
             <div class="control-btn" id="boost">BOOST</div>
-            <div class="control-btn" id="change-view">CHANGE VIEW</div>
+            <div class="control-btn" id="change-view">VIEW</div>
         </div>
-        <p>Or use keyboard: W/A/S/D for movement, SPACE for boost</p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/GLTFLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/DRACOLoader.js"></script>
-    <script src="app.js"></script>
-</body>
-</html>
-
-<script>
+    <script>
 // Main variables
 let scene, camera, renderer, car, road, grid, controls;
 let keyboard = {};
@@ -191,6 +262,11 @@ let boostAvailable = 100;
 let isBoosting = false;
 let cameraMode = 'chase'; // 'chase', 'first-person', 'top'
 let clock = new THREE.Clock();
+let isMobile = /Mobi|Android/i.test(navigator.userAgent);
+let steeringActive = false;
+let steeringStartX = 0;
+let steeringCurrentX = 0;
+let steeringValue = 0;
 
 // Car movement state
 const carState = {
@@ -207,13 +283,14 @@ function init() {
     scene.background = new THREE.Color(0x000000);
     scene.fog = new THREE.FogExp2(0x000000, 0.002);
 
-    // Create camera
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    // Create camera with adjusted FOV for mobile
+    camera = new THREE.PerspectiveCamera(isMobile ? 70 : 75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, 5, -10);
     camera.lookAt(0, 0, 0);
 
     // Create renderer
     renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -250,8 +327,8 @@ function addLights() {
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
     directionalLight.position.set(100, 100, 50);
     directionalLight.castShadow = true;
-    directionalLight.shadow.mapSize.width = 2048;
-    directionalLight.shadow.mapSize.height = 2048;
+    directionalLight.shadow.mapSize.width = 1024;
+    directionalLight.shadow.mapSize.height = 1024;
     directionalLight.shadow.camera.near = 0.5;
     directionalLight.shadow.camera.far = 500;
     directionalLight.shadow.camera.left = -100;
@@ -268,8 +345,6 @@ function addLights() {
     const neonLight2 = new THREE.PointLight(0xff00ff, 2, 50);
     neonLight2.position.set(0, 2, -20);
     scene.add(neonLight2);
-
-    // Car headlights (will be added to car model)
 }
 
 // Create environment
@@ -313,8 +388,8 @@ function createEnvironment() {
     grid.position.y = -0.2;
     scene.add(grid);
 
-    // Add futuristic buildings or structures
-    for (let i = -800; i < 800; i += 200) {
+    // Add futuristic buildings or structures (simplified for mobile)
+    for (let i = -800; i < 800; i += 300) { // Fewer buildings
         if (Math.random() > 0.5) {
             const building = createFuturisticBuilding();
             building.position.set(15 + Math.random() * 10, 0, i);
@@ -326,8 +401,8 @@ function createEnvironment() {
         }
     }
 
-    // Add floating elements
-    for (let i = 0; i < 20; i++) {
+    // Add floating elements (fewer for performance)
+    for (let i = 0; i < 10; i++) {
         const element = createFloatingElement();
         element.position.set(
             (Math.random() - 0.5) * 1000,
@@ -338,13 +413,13 @@ function createEnvironment() {
     }
 }
 
-// Create a futuristic building
+// Create a futuristic building (simplified)
 function createFuturisticBuilding() {
     const group = new THREE.Group();
     
-    const height = Math.random() * 30 + 20;
-    const width = Math.random() * 10 + 5;
-    const depth = Math.random() * 10 + 5;
+    const height = Math.random() * 20 + 15; // Smaller buildings
+    const width = Math.random() * 8 + 4;
+    const depth = Math.random() * 8 + 4;
     
     // Main structure
     const geometry = new THREE.BoxGeometry(width, height, depth);
@@ -361,24 +436,23 @@ function createFuturisticBuilding() {
     building.position.y = height / 2;
     group.add(building);
     
-    // Windows
-    const windowRows = Math.floor(height / 5);
-    const windowCols = Math.floor(width / 3);
+    // Simplified windows
+    const windowRows = Math.floor(height / 8); // Fewer windows
+    const windowCols = Math.floor(width / 4);
     
     for (let row = 0; row < windowRows; row++) {
         for (let col = 0; col < windowCols; col++) {
-            if (Math.random() > 0.3) {
-                const windowGeometry = new THREE.PlaneGeometry(1.5, 1.5);
+            if (Math.random() > 0.5) { // Less dense windows
+                const windowGeometry = new THREE.PlaneGeometry(1, 1); // Smaller windows
                 const windowMaterial = new THREE.MeshStandardMaterial({
                     color: 0x00ffff,
                     emissive: 0x00ffff,
-                    emissiveIntensity: 0.5 + Math.random() * 0.5,
+                    emissiveIntensity: 0.5,
                     transparent: true,
                     opacity: 0.8
                 });
                 const window = new THREE.Mesh(windowGeometry, windowMaterial);
                 
-                // Place windows on front and back
                 window.position.set(
                     -width/2 + (col + 0.5) * (width / windowCols),
                     (row + 0.5) * (height / windowRows),
@@ -395,30 +469,17 @@ function createFuturisticBuilding() {
         }
     }
     
-    // Antenna or spire
-    if (Math.random() > 0.5) {
-        const spireGeometry = new THREE.CylinderGeometry(0.2, 0.5, height * 0.2, 6);
-        const spireMaterial = new THREE.MeshStandardMaterial({ 
-            color: 0x8888aa,
-            metalness: 0.9,
-            roughness: 0.1
-        });
-        const spire = new THREE.Mesh(spireGeometry, spireMaterial);
-        spire.position.y = height + height * 0.1;
-        group.add(spire);
-    }
-    
     return group;
 }
 
-// Create floating futuristic elements
+// Create floating futuristic elements (simplified)
 function createFloatingElement() {
     const group = new THREE.Group();
-    const type = Math.floor(Math.random() * 3);
+    const type = Math.floor(Math.random() * 2); // Fewer types
     
     if (type === 0) {
-        // Floating orb
-        const geometry = new THREE.SphereGeometry(2, 32, 32);
+        // Floating orb (simplified)
+        const geometry = new THREE.SphereGeometry(1.5, 16, 16); // Lower poly count
         const material = new THREE.MeshStandardMaterial({
             color: 0x00ffff,
             emissive: 0x00ffff,
@@ -430,31 +491,8 @@ function createFloatingElement() {
         });
         const orb = new THREE.Mesh(geometry, material);
         group.add(orb);
-        
-        // Add glow effect
-        const glowGeometry = new THREE.SphereGeometry(2.2, 32, 32);
-        const glowMaterial = new THREE.MeshBasicMaterial({
-            color: 0x00ffff,
-            transparent: true,
-            opacity: 0.2
-        });
-        const glow = new THREE.Mesh(glowGeometry, glowMaterial);
-        group.add(glow);
-    } else if (type === 1) {
-        // Floating pyramid
-        const geometry = new THREE.ConeGeometry(3, 4, 4);
-        const material = new THREE.MeshStandardMaterial({
-            color: 0xff00ff,
-            emissive: 0xff00ff,
-            emissiveIntensity: 0.2,
-            metalness: 0.8,
-            roughness: 0.2
-        });
-        const pyramid = new THREE.Mesh(geometry, material);
-        pyramid.rotation.y = Math.PI / 4;
-        group.add(pyramid);
     } else {
-        // Floating crystal
+        // Floating crystal (simplified)
         const geometry = new THREE.ConeGeometry(1, 3, 4);
         const material = new THREE.MeshStandardMaterial({
             color: 0xffffff,
@@ -466,16 +504,8 @@ function createFloatingElement() {
             roughness: 0.05
         });
         
-        const crystal1 = new THREE.Mesh(geometry, material);
-        const crystal2 = new THREE.Mesh(geometry, material);
-        const crystal3 = new THREE.Mesh(geometry, material);
-        
-        crystal2.rotation.z = Math.PI;
-        crystal3.rotation.x = Math.PI / 2;
-        
-        group.add(crystal1);
-        group.add(crystal2);
-        group.add(crystal3);
+        const crystal = new THREE.Mesh(geometry, material);
+        group.add(crystal);
     }
     
     // Animation properties
@@ -487,15 +517,12 @@ function createFloatingElement() {
     return group;
 }
 
-// Load car model
+// Load car model (simplified for mobile)
 function loadCarModel() {
-    // For simplicity, we'll create a basic car model
-    // In a real app, you would load a GLTF model
-    
     const carGroup = new THREE.Group();
     
     // Car body
-    const bodyGeometry = new THREE.BoxGeometry(4, 1.5, 8);
+    const bodyGeometry = new THREE.BoxGeometry(3, 1.2, 6); // Smaller car
     const bodyMaterial = new THREE.MeshStandardMaterial({ 
         color: 0x0066ff,
         metalness: 0.9,
@@ -504,11 +531,11 @@ function loadCarModel() {
     const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
     body.castShadow = true;
     body.receiveShadow = true;
-    body.position.y = 0.75;
+    body.position.y = 0.6;
     carGroup.add(body);
     
     // Car top
-    const topGeometry = new THREE.BoxGeometry(3, 1, 4);
+    const topGeometry = new THREE.BoxGeometry(2.5, 0.8, 3); // Smaller
     const topMaterial = new THREE.MeshStandardMaterial({ 
         color: 0x0033aa,
         metalness: 0.9,
@@ -517,18 +544,18 @@ function loadCarModel() {
         opacity: 0.8
     });
     const top = new THREE.Mesh(topGeometry, topMaterial);
-    top.position.set(0, 1.75, 0.5);
+    top.position.set(0, 1.4, 0.5);
     carGroup.add(top);
     
-    // Wheels
-    const wheelGeometry = new THREE.CylinderGeometry(0.5, 0.5, 0.4, 32);
+    // Wheels (simplified)
+    const wheelGeometry = new THREE.CylinderGeometry(0.4, 0.4, 0.3, 16); // Lower poly count
     const wheelMaterial = new THREE.MeshStandardMaterial({ color: 0x333333 });
     
     const wheelPositions = [
-        { x: 1.5, y: 0.5, z: 2.5 },
-        { x: -1.5, y: 0.5, z: 2.5 },
-        { x: 1.5, y: 0.5, z: -2.5 },
-        { x: -1.5, y: 0.5, z: -2.5 }
+        { x: 1.2, y: 0.4, z: 2 },
+        { x: -1.2, y: 0.4, z: 2 },
+        { x: 1.2, y: 0.4, z: -2 },
+        { x: -1.2, y: 0.4, z: -2 }
     ];
     
     wheelPositions.forEach(pos => {
@@ -539,8 +566,8 @@ function loadCarModel() {
         carGroup.add(wheel);
     });
     
-    // Neon underglow
-    const underglowGeometry = new THREE.BoxGeometry(4.2, 0.1, 8.2);
+    // Neon underglow (simplified)
+    const underglowGeometry = new THREE.BoxGeometry(3.2, 0.1, 6.2);
     const underglowMaterial = new THREE.MeshStandardMaterial({
         color: 0x00ffff,
         emissive: 0x00ffff,
@@ -552,8 +579,8 @@ function loadCarModel() {
     underglow.position.y = 0.1;
     carGroup.add(underglow);
     
-    // Headlights
-    const headlightGeometry = new THREE.SphereGeometry(0.3, 16, 16);
+    // Headlights (simplified)
+    const headlightGeometry = new THREE.SphereGeometry(0.2, 12, 12);
     const headlightMaterial = new THREE.MeshStandardMaterial({
         color: 0xffffff,
         emissive: 0xffffff,
@@ -561,50 +588,19 @@ function loadCarModel() {
     });
     
     const leftHeadlight = new THREE.Mesh(headlightGeometry, headlightMaterial);
-    leftHeadlight.position.set(1.2, 0.8, 3.5);
+    leftHeadlight.position.set(1, 0.6, 2.8);
     carGroup.add(leftHeadlight);
     
     const rightHeadlight = new THREE.Mesh(headlightGeometry, headlightMaterial);
-    rightHeadlight.position.set(-1.2, 0.8, 3.5);
+    rightHeadlight.position.set(-1, 0.6, 2.8);
     carGroup.add(rightHeadlight);
-    
-    // Headlight beams
-    const leftLight = new THREE.SpotLight(0xffffff, 2, 50, Math.PI / 6, 0.5);
-    leftLight.position.set(1.2, 0.5, 3.5);
-    leftLight.target.position.set(1.2, 0.5, 10);
-    leftLight.castShadow = true;
-    carGroup.add(leftLight);
-    carGroup.add(leftLight.target);
-    
-    const rightLight = new THREE.SpotLight(0xffffff, 2, 50, Math.PI / 6, 0.5);
-    rightLight.position.set(-1.2, 0.5, 3.5);
-    rightLight.target.position.set(-1.2, 0.5, 10);
-    rightLight.castShadow = true;
-    carGroup.add(rightLight);
-    carGroup.add(rightLight.target);
-    
-    // Exhaust glow
-    const exhaustGeometry = new THREE.SphereGeometry(0.2, 16, 16);
-    const exhaustMaterial = new THREE.MeshStandardMaterial({
-        color: 0xff6600,
-        emissive: 0xff6600,
-        emissiveIntensity: 1
-    });
-    
-    const leftExhaust = new THREE.Mesh(exhaustGeometry, exhaustMaterial);
-    leftExhaust.position.set(0.8, 0.5, -3.5);
-    carGroup.add(leftExhaust);
-    
-    const rightExhaust = new THREE.Mesh(exhaustGeometry, exhaustMaterial);
-    rightExhaust.position.set(-0.8, 0.5, -3.5);
-    carGroup.add(rightExhaust);
     
     // Add car to scene
     car = carGroup;
     scene.add(car);
 }
 
-// Set up event listeners
+// Set up event listeners with mobile support
 function setupEventListeners() {
     // Keyboard controls
     window.addEventListener('keydown', (event) => {
@@ -628,56 +624,151 @@ function setupEventListeners() {
     });
     
     // Button controls
-    document.getElementById('accelerate').addEventListener('mousedown', () => {
-        carState.accelerating = true;
-    });
-    document.getElementById('accelerate').addEventListener('mouseup', () => {
-        carState.accelerating = false;
-    });
-    document.getElementById('accelerate').addEventListener('mouseleave', () => {
-        carState.accelerating = false;
-    });
+    const setupButton = (id, stateProp) => {
+        const el = document.getElementById(id);
+        el.addEventListener('mousedown', () => {
+            carState[stateProp] = true;
+        });
+        el.addEventListener('mouseup', () => {
+            carState[stateProp] = false;
+        });
+        el.addEventListener('mouseleave', () => {
+            carState[stateProp] = false;
+        });
+        el.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            carState[stateProp] = true;
+        });
+        el.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            carState[stateProp] = false;
+        });
+    };
     
-    document.getElementById('brake').addEventListener('mousedown', () => {
-        carState.braking = true;
-    });
-    document.getElementById('brake').addEventListener('mouseup', () => {
-        carState.braking = false;
-    });
-    document.getElementById('brake').addEventListener('mouseleave', () => {
-        carState.braking = false;
-    });
+    setupButton('accelerate', 'accelerating');
+    setupButton('brake', 'braking');
+    setupButton('left', 'turningLeft');
+    setupButton('right', 'turningRight');
+    setupButton('boost', 'boosting');
     
-    document.getElementById('left').addEventListener('mousedown', () => {
-        carState.turningLeft = true;
-    });
-    document.getElementById('left').addEventListener('mouseup', () => {
-        carState.turningLeft = false;
-    });
-    document.getElementById('left').addEventListener('mouseleave', () => {
-        carState.turningLeft = false;
-    });
+    // Mobile-specific controls
+    if (isMobile) {
+        document.getElementById('ui').style.display = 'none';
+        
+        // Accelerate/Brake buttons
+        document.getElementById('mobile-accelerate').addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            carState.accelerating = true;
+        });
+        document.getElementById('mobile-accelerate').addEventListener('touchend', (e) => {
+            e.preventDefault();
+            carState.accelerating = false;
+        });
+        
+        document.getElementById('mobile-brake').addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            carState.braking = true;
+        });
+        document.getElementById('mobile-brake').addEventListener('touchend', (e) => {
+            e.preventDefault();
+            carState.braking = false;
+        });
+        
+        // Boost button
+        document.getElementById('mobile-boost').addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            activateBoost();
+        });
+        document.getElementById('mobile-boost').addEventListener('touchend', (e) => {
+            e.preventDefault();
+            deactivateBoost();
+        });
+        
+        // Steering wheel
+        const steeringWheel = document.getElementById('steering-wheel');
+        steeringWheel.addEventListener('touchstart', handleSteeringStart);
+        steeringWheel.addEventListener('touchmove', handleSteeringMove);
+        steeringWheel.addEventListener('touchend', handleSteeringEnd);
+    } else {
+        document.getElementById('mobile-controls').style.display = 'none';
+        document.getElementById('mobile-steering').style.display = 'none';
+    }
     
-    document.getElementById('right').addEventListener('mousedown', () => {
-        carState.turningRight = true;
-    });
-    document.getElementById('right').addEventListener('mouseup', () => {
-        carState.turningRight = false;
-    });
-    document.getElementById('right').addEventListener('mouseleave', () => {
-        carState.turningRight = false;
-    });
-    
-    document.getElementById('boost').addEventListener('mousedown', activateBoost);
-    document.getElementById('boost').addEventListener('mouseup', deactivateBoost);
+    // View change button
     document.getElementById('change-view').addEventListener('click', changeCameraView);
+    document.getElementById('change-view').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        changeCameraView();
+    });
     
     // Window resize
     window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
+        
+        // Adjust UI for mobile landscape
+        if (isMobile) {
+            if (window.innerWidth > window.innerHeight) {
+                // Landscape
+                document.getElementById('mobile-steering').style.bottom = '20px';
+                document.getElementById('mobile-steering').style.left = '20px';
+                document.getElementById('mobile-controls').style.bottom = '20px';
+                document.getElementById('mobile-controls').style.right = '20px';
+                document.getElementById('mobile-controls').style.left = 'auto';
+                document.getElementById('mobile-controls').style.flexDirection = 'row';
+            } else {
+                // Portrait
+                document.getElementById('mobile-steering').style.bottom = '150px';
+                document.getElementById('mobile-steering').style.left = '20px';
+                document.getElementById('mobile-controls').style.bottom = '150px';
+                document.getElementById('mobile-controls').style.left = '0';
+                document.getElementById('mobile-controls').style.right = '0';
+                document.getElementById('mobile-controls').style.flexDirection = 'row';
+            }
+        }
     });
+}
+
+// Steering controls for mobile
+function handleSteeringStart(e) {
+    e.preventDefault();
+    steeringActive = true;
+    steeringStartX = e.touches[0].clientX;
+}
+
+function handleSteeringMove(e) {
+    if (!steeringActive) return;
+    e.preventDefault();
+    steeringCurrentX = e.touches[0].clientX;
+    steeringValue = (steeringCurrentX - steeringStartX) / 50; // Scale factor
+    
+    // Limit steering value
+    steeringValue = Math.max(-1, Math.min(1, steeringValue));
+    
+    // Update steering knob position
+    const knob = document.getElementById('steering-knob');
+    knob.style.left = '50%';
+    knob.style.transform = `translateX(${steeringValue * 30}px) translateY(-50%)`;
+    
+    // Update car state
+    carState.turningLeft = steeringValue > 0.2;
+    carState.turningRight = steeringValue < -0.2;
+}
+
+function handleSteeringEnd(e) {
+    e.preventDefault();
+    steeringActive = false;
+    steeringValue = 0;
+    
+    // Reset steering knob
+    const knob = document.getElementById('steering-knob');
+    knob.style.left = '50%';
+    knob.style.transform = 'translateX(-50%) translateY(-50%)';
+    
+    // Reset car state
+    carState.turningLeft = false;
+    carState.turningRight = false;
 }
 
 // Activate boost
@@ -759,8 +850,8 @@ function updateCamera(delta) {
     switch (cameraMode) {
         case 'chase':
             // Chase camera behind the car
-            const chaseDistance = 10 + Math.max(0, 5 - carSpeed / 20);
-            const chaseHeight = 5 + Math.max(0, 3 - carSpeed / 30);
+            const chaseDistance = 8 + Math.max(0, 4 - carSpeed / 20); // Closer for mobile
+            const chaseHeight = 4 + Math.max(0, 2 - carSpeed / 30);
             
             const targetX = car.position.x + Math.sin(carRotation) * chaseDistance;
             const targetZ = car.position.z + Math.cos(carRotation) * chaseDistance;
@@ -774,11 +865,11 @@ function updateCamera(delta) {
             
         case 'first-person':
             // First-person view from driver's seat
-            const fpX = car.position.x - Math.sin(carRotation) * 1.5;
-            const fpZ = car.position.z - Math.cos(carRotation) * 1.5;
+            const fpX = car.position.x - Math.sin(carRotation) * 1.2; // Adjusted for smaller car
+            const fpZ = car.position.z - Math.cos(carRotation) * 1.2;
             
             camera.position.x = fpX;
-            camera.position.y = car.position.y + 1.2;
+            camera.position.y = car.position.y + 1;
             camera.position.z = fpZ;
             
             camera.rotation.y = carRotation;
@@ -788,8 +879,8 @@ function updateCamera(delta) {
         case 'top':
             // Top-down view
             camera.position.x = car.position.x;
-            camera.position.y = car.position.y + 20;
-            camera.position.z = car.position.z + 10;
+            camera.position.y = car.position.y + 15; // Lower height
+            camera.position.z = car.position.z + 8;
             
             camera.lookAt(car.position.x, car.position.y, car.position.z);
             break;
@@ -853,667 +944,6 @@ function animate() {
 
 // Start the app
 init();
-</script>
-
-<script>// Add to the init() function
-    const textureLoader = new THREE.TextureLoader();
-    
-    // Array to track loaded textures
-    const loadedTextures = {};
-    
-    // Function to load textures
-    function loadTexture(name, url) {
-        return new Promise((resolve) => {
-            textureLoader.load(url, (texture) => {
-                loadedTextures[name] = texture;
-                resolve();
-            });
-        });
-    }
-    
-    // Load all textures (add this before animate())
-    async function loadAllTextures() {
-        await Promise.all([
-            loadTexture('carBody', 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/terrain/grasslight-big.jpg'),
-            loadTexture('carPaint', 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/carbonfiber/carbonfiber.jpg'),
-            loadTexture('carInterior', 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/leopard/leopard.jpg'),
-            loadTexture('buildingConcrete', 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/brick_diffuse.jpg'),
-            loadTexture('buildingWindow', 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/window.png'),
-            loadTexture('buildingMetal', 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/metal/metal_plate_diff_1k.jpg'),
-            loadTexture('road', 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/terrain/asphalt.jpg'),
-            loadTexture('roadMarking', 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/white-concrete.jpg'),
-            loadTexture('tire', 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/tire/tire_tread_diff_1k.jpg'),
-            loadTexture('glass', 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/glass/glass.png')
-        ]);
-        
-        // Recreate objects with textures
-        createEnvironment();
-        loadCarModel();
-    } </script>
-
-    <script>
-
-function loadCarModel() {
-    const carGroup = new THREE.Group();
-    
-    // Car body with realistic paint texture
-    const bodyGeometry = new THREE.BoxGeometry(4, 1.5, 8);
-    const bodyMaterial = new THREE.MeshStandardMaterial({ 
-        map: loadedTextures.carPaint,
-        color: 0x0066ff,
-        metalness: 0.9,
-        roughness: 0.2,
-        normalMap: loadedTextures.carPaint,
-        normalScale: new THREE.Vector2(0.5, 0.5)
-    });
-    const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
-    body.castShadow = true;
-    body.receiveShadow = true;
-    body.position.y = 0.75;
-    carGroup.add(body);
-
-    // Car top with glass and interior
-    const topGeometry = new THREE.BoxGeometry(3, 1, 4);
-    const topMaterial = new THREE.MeshStandardMaterial({ 
-        map: loadedTextures.glass,
-        color: 0xffffff,
-        metalness: 0.3,
-        roughness: 0.1,
-        transparent: true,
-        opacity: 0.3,
-        envMap: null // Add environment map for reflections if available
-    });
-    const top = new THREE.Mesh(topGeometry, topMaterial);
-    top.position.set(0, 1.75, 0.5);
-    carGroup.add(top);
-
-    // Interior visible through glass
-    const interiorGeometry = new THREE.BoxGeometry(2.8, 0.8, 3.8);
-    const interiorMaterial = new THREE.MeshStandardMaterial({ 
-        map: loadedTextures.carInterior,
-        color: 0x333333,
-        roughness: 0.8
-    });
-    const interior = new THREE.Mesh(interiorGeometry, interiorMaterial);
-    interior.position.set(0, 1.75, 0.5);
-    carGroup.add(interior);
-
-    // Wheels with tire texture
-    const wheelGeometry = new THREE.CylinderGeometry(0.5, 0.5, 0.4, 32);
-    const wheelMaterial = new THREE.MeshStandardMaterial({ 
-        map: loadedTextures.tire,
-        color: 0x333333,
-        roughness: 0.9,
-        metalness: 0.1
-    });
-    
-    const wheelPositions = [
-        { x: 1.5, y: 0.5, z: 2.5 },
-        { x: -1.5, y: 0.5, z: 2.5 },
-        { x: 1.5, y: 0.5, z: -2.5 },
-        { x: -1.5, y: 0.5, z: -2.5 }
-    ];
-    
-    wheelPositions.forEach(pos => {
-        const wheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
-        wheel.rotation.z = Math.PI / 2;
-        wheel.position.set(pos.x, pos.y, pos.z);
-        wheel.castShadow = true;
-        carGroup.add(wheel);
-        
-        // Wheel rim
-        const rimGeometry = new THREE.CylinderGeometry(0.4, 0.4, 0.41, 24);
-        const rimMaterial = new THREE.MeshStandardMaterial({
-            color: 0xaaaaaa,
-            metalness: 0.9,
-            roughness: 0.2
-        });
-        const rim = new THREE.Mesh(rimGeometry, rimMaterial);
-        rim.rotation.z = Math.PI / 2;
-        rim.position.set(pos.x, pos.y, pos.z);
-        carGroup.add(rim);
-    });
-    
-    // Rest of the car code remains the same...
-}
     </script>
-
-    <script>function createFuturisticBuilding() {
-        const group = new THREE.Group();
-        
-        const height = Math.random() * 30 + 20;
-        const width = Math.random() * 10 + 5;
-        const depth = Math.random() * 10 + 5;
-        
-        // Main structure with concrete texture
-        const geometry = new THREE.BoxGeometry(width, height, depth);
-        const material = new THREE.MeshStandardMaterial({ 
-            map: loadedTextures.buildingConcrete,
-            color: 0x888888,
-            metalness: 0.2,
-            roughness: 0.7,
-            normalMap: loadedTextures.buildingConcrete,
-            normalScale: new THREE.Vector2(0.3, 0.3)
-        });
-        const building = new THREE.Mesh(geometry, material);
-        building.castShadow = true;
-        building.receiveShadow = true;
-        building.position.y = height / 2;
-        group.add(building);
-        
-        // Add metal framework
-        const metalMaterial = new THREE.MeshStandardMaterial({
-            map: loadedTextures.buildingMetal,
-            color: 0xaaaaaa,
-            metalness: 0.9,
-            roughness: 0.3
-        });
-        
-        // Vertical beams
-        for (let i = 0; i < 4; i++) {
-            const beamGeometry = new THREE.BoxGeometry(0.3, height, 0.3);
-            const beam = new THREE.Mesh(beamGeometry, metalMaterial);
-            beam.position.set(
-                -width/2 + (i + 0.5) * (width / 3),
-                height/2,
-                depth/2 + 0.2
-            );
-            group.add(beam);
-            
-            const beamBack = beam.clone();
-            beamBack.position.z = -depth/2 - 0.2;
-            group.add(beamBack);
-        }
-        
-        // Windows with glass texture
-        const windowRows = Math.floor(height / 5);
-        const windowCols = Math.floor(width / 3);
-        
-        for (let row = 0; row < windowRows; row++) {
-            for (let col = 0; col < windowCols; col++) {
-                if (Math.random() > 0.3) {
-                    const windowGeometry = new THREE.PlaneGeometry(1.5, 1.5);
-                    const windowMaterial = new THREE.MeshStandardMaterial({
-                        map: loadedTextures.buildingWindow,
-                        color: 0x00ffff,
-                        emissive: 0x00ffff,
-                        emissiveIntensity: 0.5 + Math.random() * 0.5,
-                        transparent: true,
-                        opacity: 0.8,
-                        roughness: 0.1,
-                        metalness: 0.9
-                    });
-                    const window = new THREE.Mesh(windowGeometry, windowMaterial);
-                    
-                    window.position.set(
-                        -width/2 + (col + 0.5) * (width / windowCols),
-                        (row + 0.5) * (height / windowRows),
-                        depth/2 + 0.01
-                    );
-                    window.rotation.y = Math.PI;
-                    group.add(window);
-                    
-                    const windowBack = window.clone();
-                    windowBack.position.z = -depth/2 - 0.01;
-                    windowBack.rotation.y = 0;
-                    group.add(windowBack);
-                }
-            }
-        }
-        
-        // Rest of the building code remains the same...
-    } </script> 
-
-    <script>
-     // Replace the createEnvironment() function with this cosmic version
-function createEnvironment() {
-    // Create cosmic skybox
-    const spaceUrls = [
-        'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/cube/skybox/px.jpg',
-        'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/cube/skybox/nx.jpg',
-        'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/cube/skybox/py.jpg',
-        'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/cube/skybox/ny.jpg',
-        'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/cube/skybox/pz.jpg',
-        'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/cube/skybox/nz.jpg'
-    ];
-    
-    const spaceTexture = new THREE.CubeTextureLoader().load(spaceUrls);
-    scene.background = spaceTexture;
-    scene.environment = spaceTexture;
-    
-    // Remove fog for space environment
-    scene.fog = null;
-
-    // Create cosmic neon road
-    const roadGeometry = new THREE.PlaneGeometry(2000, 20);
-    const roadMaterial = new THREE.MeshStandardMaterial({ 
-        color: 0x000033,
-        emissive: 0x0000ff,
-        emissiveIntensity: 0.3,
-        metalness: 0.9,
-        roughness: 0.1,
-        side: THREE.DoubleSide
-    });
-    road = new THREE.Mesh(roadGeometry, roadMaterial);
-    road.rotation.x = -Math.PI / 2;
-    road.position.y = -0.1;
-    road.receiveShadow = true;
-    scene.add(road);
-
-    // Add glowing road markings
-    for (let i = -1000; i < 1000; i += 10) {
-        const markingGeometry = new THREE.PlaneGeometry(2, 0.3);
-        const hue = (i % 30) / 30; // Vary hue along the road
-        const markingMaterial = new THREE.MeshStandardMaterial({ 
-            color: new THREE.Color().setHSL(hue, 1, 0.5),
-            emissive: new THREE.Color().setHSL(hue, 1, 0.5),
-            emissiveIntensity: 1.5,
-            roughness: 0.1,
-            metalness: 0.9
-        });
-        const marking = new THREE.Mesh(markingGeometry, markingMaterial);
-        marking.rotation.x = -Math.PI / 2;
-        marking.position.set(0, 0.01, i);
-        scene.add(marking);
-    }
-
-    // Create cosmic grid floor
-    const gridGeometry = new THREE.PlaneGeometry(2000, 2000);
-    const gridMaterial = new THREE.MeshStandardMaterial({ 
-        color: 0x000022,
-        emissive: 0x0000aa,
-        emissiveIntensity: 0.5,
-        side: THREE.DoubleSide,
-        transparent: true,
-        opacity: 0.3,
-        wireframe: true
-    });
-    grid = new THREE.Mesh(gridGeometry, gridMaterial);
-    grid.rotation.x = -Math.PI / 2;
-    grid.position.y = -0.2;
-    scene.add(grid);
-
-    // Add colorful futuristic buildings
-    for (let i = -800; i < 800; i += 150) {
-        const hue1 = Math.random();
-        const hue2 = (hue1 + 0.3 + Math.random() * 0.4) % 1;
-        
-        const building1 = createCosmicBuilding(hue1);
-        building1.position.set(15 + Math.random() * 10, 0, i);
-        scene.add(building1);
-        
-        const building2 = createCosmicBuilding(hue2);
-        building2.position.set(-15 - Math.random() * 10, 0, i);
-        scene.add(building2);
-    }
-
-    // Add space elements (stars, planets, etc.)
-    createSpaceElements();
-
-    // Add floating neon particles
-    for (let i = 0; i < 200; i++) {
-        const particle = createNeonParticle();
-        particle.position.set(
-            (Math.random() - 0.5) * 1000,
-            Math.random() * 100 + 10,
-            (Math.random() - 0.5) * 1000
-        );
-        scene.add(particle);
-    }
-}
-
-// Create cosmic neon buildings
-function createCosmicBuilding(baseHue) {
-    const group = new THREE.Group();
-    
-    const height = Math.random() * 50 + 30;
-    const width = Math.random() * 15 + 10;
-    const depth = Math.random() * 15 + 10;
-    
-    // Main structure with gradient color
-    const geometry = new THREE.BoxGeometry(width, height, depth);
-    const material = new THREE.MeshStandardMaterial({ 
-        color: new THREE.Color().setHSL(baseHue, 0.8, 0.3),
-        emissive: new THREE.Color().setHSL(baseHue, 0.8, 0.5),
-        emissiveIntensity: 0.5,
-        metalness: 0.9,
-        roughness: 0.2
-    });
-    const building = new THREE.Mesh(geometry, material);
-    building.castShadow = true;
-    building.receiveShadow = true;
-    building.position.y = height / 2;
-    group.add(building);
-    
-    // Neon frames
-    const frameMaterial = new THREE.MeshStandardMaterial({
-        color: 0x000000,
-        emissive: new THREE.Color().setHSL((baseHue + 0.2) % 1, 1, 0.7),
-        emissiveIntensity: 1,
-        metalness: 0.9,
-        roughness: 0.1
-    });
-    
-    // Vertical frames
-    for (let i = 0; i < 4; i++) {
-        const frameGeometry = new THREE.BoxGeometry(0.3, height, 0.3);
-        const frame = new THREE.Mesh(frameGeometry, frameMaterial);
-        frame.position.set(
-            -width/2 + (i + 0.5) * (width / 3),
-            height/2,
-            depth/2 + 0.2
-        );
-        group.add(frame);
-        
-        const frameBack = frame.clone();
-        frameBack.position.z = -depth/2 - 0.2;
-        group.add(frameBack);
-    }
-    
-    // Horizontal frames
-    for (let i = 0; i < 5; i++) {
-        const hFrameGeometry = new THREE.BoxGeometry(width + 0.6, 0.3, 0.3);
-        const hFrame = new THREE.Mesh(hFrameGeometry, frameMaterial);
-        hFrame.position.set(
-            0,
-            i * (height / 4),
-            depth/2 + 0.2
-        );
-        group.add(hFrame);
-        
-        const hFrameBack = hFrame.clone();
-        hFrameBack.position.z = -depth/2 - 0.2;
-        group.add(hFrameBack);
-    }
-    
-    // Windows with glass texture
-    const windowRows = Math.floor(height / 5);
-    const windowCols = Math.floor(width / 3);
-    
-    for (let row = 0; row < windowRows; row++) {
-        for (let col = 0; col < windowCols; col++) {
-            const windowHue = (baseHue + 0.1 + Math.random() * 0.2) % 1;
-            const windowGeometry = new THREE.PlaneGeometry(1.2, 1.2);
-            const windowMaterial = new THREE.MeshStandardMaterial({
-                color: new THREE.Color().setHSL(windowHue, 0.8, 0.5),
-                emissive: new THREE.Color().setHSL(windowHue, 0.8, 0.7),
-                emissiveIntensity: 0.8 + Math.random() * 0.4,
-                transparent: true,
-                opacity: 0.9,
-                roughness: 0.1,
-                metalness: 0.9
-            });
-            const window = new THREE.Mesh(windowGeometry, windowMaterial);
-            
-            window.position.set(
-                -width/2 + (col + 0.5) * (width / windowCols),
-                (row + 0.5) * (height / windowRows),
-                depth/2 + 0.01
-            );
-            window.rotation.y = Math.PI;
-            group.add(window);
-            
-            const windowBack = window.clone();
-            windowBack.position.z = -depth/2 - 0.01;
-            windowBack.rotation.y = 0;
-            group.add(windowBack);
-        }
-    }
-    
-    // Antenna with glowing tip
-    const spireGeometry = new THREE.CylinderGeometry(0.2, 0.5, height * 0.2, 6);
-    const spireMaterial = new THREE.MeshStandardMaterial({ 
-        color: 0x000000,
-        emissive: new THREE.Color().setHSL((baseHue + 0.3) % 1, 1, 0.7),
-        emissiveIntensity: 1.5,
-        metalness: 0.9,
-        roughness: 0.1
-    });
-    const spire = new THREE.Mesh(spireGeometry, spireMaterial);
-    spire.position.y = height + height * 0.1;
-    group.add(spire);
-    
-    // Add pulsing animation to the building
-    group.userData = {
-        pulseSpeed: Math.random() * 0.01 + 0.005,
-        baseHue: baseHue,
-        time: 0
-    };
-    
-    return group;
-}
-
-// Create space elements (stars, planets, etc.)
-function createSpaceElements() {
-    // Create starfield
-    const starGeometry = new THREE.BufferGeometry();
-    const starMaterial = new THREE.PointsMaterial({
-        color: 0xffffff,
-        size: 0.1,
-        transparent: true,
-        opacity: 0.8
-    });
-    
-    const starVertices = [];
-    for (let i = 0; i < 10000; i++) {
-        const x = (Math.random() - 0.5) * 2000;
-        const y = (Math.random() - 0.5) * 2000;
-        const z = (Math.random() - 0.5) * 2000;
-        starVertices.push(x, y, z);
-    }
-    
-    starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
-    const stars = new THREE.Points(starGeometry, starMaterial);
-    scene.add(stars);
-    
-    // Create distant planets
-    for (let i = 0; i < 5; i++) {
-        const planetSize = Math.random() * 30 + 20;
-        const planetGeometry = new THREE.SphereGeometry(planetSize, 32, 32);
-        const planetHue = Math.random();
-        const planetMaterial = new THREE.MeshStandardMaterial({
-            color: new THREE.Color().setHSL(planetHue, 0.9, 0.5),
-            emissive: new THREE.Color().setHSL(planetHue, 0.9, 0.3),
-            emissiveIntensity: 0.3,
-            roughness: 0.8,
-            metalness: 0.1
-        });
-        const planet = new THREE.Mesh(planetGeometry, planetMaterial);
-        
-        // Position planets in the distance
-        planet.position.set(
-            (Math.random() - 0.5) * 1000,
-            (Math.random() - 0.5) * 1000,
-            -500 - Math.random() * 500
-        );
-        
-        scene.add(planet);
-        
-        // Add ring for some planets
-        if (Math.random() > 0.7) {
-            const ringGeometry = new THREE.RingGeometry(planetSize * 1.3, planetSize * 1.7, 32);
-            const ringMaterial = new THREE.MeshStandardMaterial({
-                color: new THREE.Color().setHSL((planetHue + 0.2) % 1, 0.8, 0.6),
-                side: THREE.DoubleSide,
-                roughness: 0.5,
-                metalness: 0.5
-            });
-            const ring = new THREE.Mesh(ringGeometry, ringMaterial);
-            ring.rotation.x = Math.PI / 2 * (0.5 + Math.random());
-            ring.position.copy(planet.position);
-            scene.add(ring);
-        }
-    }
-}
-
-// Create floating neon particles
-function createNeonParticle() {
-    const group = new THREE.Group();
-    const size = Math.random() * 0.5 + 0.3;
-    const hue = Math.random();
-    
-    const geometry = new THREE.SphereGeometry(size, 16, 16);
-    const material = new THREE.MeshStandardMaterial({
-        color: new THREE.Color().setHSL(hue, 1, 0.5),
-        emissive: new THREE.Color().setHSL(hue, 1, 0.7),
-        emissiveIntensity: 1.5,
-        roughness: 0.1,
-        metalness: 0.9,
-        transparent: true,
-        opacity: 0.9
-    });
-    
-    const particle = new THREE.Mesh(geometry, material);
-    group.add(particle);
-    
-    // Add glow effect
-    const glowGeometry = new THREE.SphereGeometry(size * 1.5, 16, 16);
-    const glowMaterial = new THREE.MeshBasicMaterial({
-        color: new THREE.Color().setHSL(hue, 1, 0.7),
-        transparent: true,
-        opacity: 0.3
-    });
-    const glow = new THREE.Mesh(glowGeometry, glowMaterial);
-    group.add(glow);
-    
-    // Animation properties
-    group.userData = {
-        speed: Math.random() * 0.02 + 0.01,
-        rotationSpeed: (Math.random() - 0.5) * 0.02,
-        floatSpeed: Math.random() * 0.01 + 0.005,
-        hue: hue
-    };
-    
-    return group;
-}
-
-// Update the animate() function to include building pulsing
-function animate() {
-    const delta = clock.getDelta();
-    
-    requestAnimationFrame(animate);
-    
-    if (car) {
-        updateCar(delta);
-        updateCamera(delta);
-    }
-    
-    updateFloatingElements(delta);
-    updateBuildingPulses(delta);
-    renderer.render(scene, camera);
-}
-
-// Update building pulse effects
-function updateBuildingPulses(delta) {
-    scene.children.forEach(child => {
-        if (child.userData && child.userData.pulseSpeed !== undefined) {
-            child.userData.time += delta;
-            const pulse = Math.sin(child.userData.time * child.userData.pulseSpeed * 10) * 0.1 + 0.9;
-            
-            child.traverse(obj => {
-                if (obj.isMesh && obj.material.emissive) {
-                    const hue = (child.userData.baseHue + pulse * 0.1) % 1;
-                    obj.material.emissive.setHSL(hue, 0.8, 0.5 * pulse);
-                    obj.material.emissiveIntensity = 0.5 * pulse;
-                }
-            });
-        }
-    });
-}   
-    </script>
-    <script>function createEnvironment() {
-    // Create road segments
-    const roadSegmentLength = 200;
-    const roadSegments = [];
-    for (let i = 0; i < 10; i++) {
-        const roadGeometry = new THREE.PlaneGeometry(20, roadSegmentLength);
-        const roadMaterial = new THREE.MeshStandardMaterial({
-            color: 0x000033,
-            emissive: 0x0000ff,
-            emissiveIntensity: 0.3,
-            metalness: 0.9,
-            roughness: 0.1,
-            side: THREE.DoubleSide,
-        });
-        const roadSegment = new THREE.Mesh(roadGeometry, roadMaterial);
-        roadSegment.rotation.x = -Math.PI / 2;
-        roadSegment.position.set(0, -0.1, -i * roadSegmentLength);
-        roadSegment.receiveShadow = true;
-        scene.add(roadSegment);
-        roadSegments.push(roadSegment);
-
-        // Add glowing road markings to each segment
-        for (let j = -roadSegmentLength / 2; j < roadSegmentLength / 2; j += 10) {
-            const markingGeometry = new THREE.PlaneGeometry(2, 0.3);
-            const hue = (j % 30) / 30;
-            const markingMaterial = new THREE.MeshStandardMaterial({
-                color: new THREE.Color().setHSL(hue, 1, 0.5),
-                emissive: new THREE.Color().setHSL(hue, 1, 0.5),
-                emissiveIntensity: 1.5,
-                roughness: 0.1,
-                metalness: 0.9,
-            });
-            const marking = new THREE.Mesh(markingGeometry, markingMaterial);
-            marking.rotation.x = -Math.PI / 2;
-            marking.position.set(0, 0.01, roadSegment.position.z + j);
-            scene.add(marking);
-        }
-    }
-
-    // Create building segments
-    const buildingSegmentLength = 200;
-    const buildingSegments = [];
-    for (let i = 0; i < 10; i++) {
-        const buildingGroup = new THREE.Group();
-
-        for (let j = -800; j < 800; j += 150) {
-            const building1 = createCosmicBuilding(Math.random());
-            building1.position.set(15 + Math.random() * 10, 0, j - i * buildingSegmentLength);
-            buildingGroup.add(building1);
-
-            const building2 = createCosmicBuilding(Math.random());
-            building2.position.set(-15 - Math.random() * 10, 0, j - i * buildingSegmentLength);
-            buildingGroup.add(building2);
-        }
-
-        buildingGroup.position.z = -i * buildingSegmentLength;
-        scene.add(buildingGroup);
-        buildingSegments.push(buildingGroup);
-    }
-
-    // Update environment positions
-    function updateEnvironment(delta) {
-        // Update road segments
-        roadSegments.forEach((segment) => {
-            segment.position.z += carSpeed * delta;
-            if (segment.position.z > roadSegmentLength / 2) {
-                segment.position.z -= roadSegments.length * roadSegmentLength;
-            }
-        });
-
-        // Update building segments
-        buildingSegments.forEach((segment) => {
-            segment.position.z += carSpeed * delta;
-            if (segment.position.z > buildingSegmentLength / 2) {
-                segment.position.z -= buildingSegments.length * buildingSegmentLength;
-            }
-        });
-    }
-
-    // Call updateEnvironment in the animation loop
-    function animate() {
-        const delta = clock.getDelta();
-
-        requestAnimationFrame(animate);
-
-        if (car) {
-            updateCar(delta);
-            updateCamera(delta);
-        }
-
-        updateFloatingElements(delta);
-        updateBuildingPulses(delta);
-        updateEnvironment(delta);
-        renderer.render(scene, camera);
-    }
-} </script>
+</body>
+</html>
